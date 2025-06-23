@@ -1,4 +1,5 @@
 from scraper.get_soup import get_soup
+from scraper.pagination import get_next_page
 
 
 def main():
