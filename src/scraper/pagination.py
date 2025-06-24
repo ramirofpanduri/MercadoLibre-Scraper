@@ -17,4 +17,5 @@ def get_next_page(base_url):
             full_url = urljoin(base_url, href)
             if full_url not in page_urls:
                 page_urls.append(full_url)
-                return page_urls
+
+    return page_urls
