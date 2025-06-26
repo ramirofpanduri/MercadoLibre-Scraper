@@ -1,5 +1,5 @@
-from .get_soup import get_soup
 from urllib.parse import urljoin
+from .get_soup import get_soup
 
 
 def get_next_page(base_url):
