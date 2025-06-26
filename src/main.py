@@ -1,4 +1,7 @@
-from scraper.get_soup import get_soup
+from .scraper.get_soup import get_soup
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 def main():
