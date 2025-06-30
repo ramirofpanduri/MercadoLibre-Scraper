@@ -25,6 +25,8 @@ def get_next_page(base_url):
 
     sorted_urls = sorted(page_urls, key=sort_key)
 
+    # Print the sorted URLs
+
     print("[🔗] Páginas encontradas:")
     for l in pagination_links:
         print("   ", l)
