@@ -37,3 +37,7 @@ def get_next_page(base_url):
         pages.append(new_url)
 
     print("Total pages found:")
+    for p in pages:
+        print(p)
+
+    return pages
