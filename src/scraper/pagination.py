@@ -1,4 +1,4 @@
-from urllib.parse import urljoin
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 from .get_soup import get_soup
 import re
 
@@ -11,20 +11,20 @@ def get_next_page(base_url):
     page_urls = set()
     page_urls.add(base_url)
 
-    pagination_links = soup.select("a.andes-pagination__button")
+    pagination_links = soup.select("a.andes-pagination__link")
 
-    for link in soup.select("a.andes-pagination__link"):
+    max_page = 1
+
+    for link in pagination_links:
         href = link.get("href")
         if href and "page=" in href:
-            full_url = urljoin(base_url, href)
-            page_urls.add(full_url)
+            match = re.search(r"page=(\d+)", href)
+            if match:
+                num = int(match.group(1))
+                if num > max_page:
+                    max_page = num
 
-    def sort_key(url):
-        match = re.search(r"page=(\d+)", url)
-        return int(match.group(1)) if match else 0
+    print(f"Max page found: {max_page}")
 
-    sorted_urls = sorted(page_urls, key=sort_key)
-
-    for l in pagination_links:
-        print("   ", l)
-    return sorted_urls
+    pages = []
+    parsed_url = urlparse(base_url)
