@@ -27,4 +27,13 @@ def get_next_page(base_url):
     print(f"Max page found: {max_page}")
 
     pages = []
-    parsed_url = urlparse(base_url)
+    parsed = urlparse(base_url)
+    query = parse_qs(parsed.query)
+
+    for i in range(1, max_page + 1):
+        query["page"] = [str(i)]
+        new_query = urlencode(query, doseq=True)
+        new_url = urlunparse(parsed._replace(query=new_query))
+        pages.append(new_url)
+
+    print("Total pages found:")
