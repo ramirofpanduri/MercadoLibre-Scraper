@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def extract_product_data(product):
@@ -13,7 +13,7 @@ def extract_product_data(product):
             "seller": seller.get_text(strip=True) if seller else None,
             "price": price.get_text(strip=True) if price else None,
             "image": image_tag["data-src"] if image_tag else None,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
     except Exception as e:
