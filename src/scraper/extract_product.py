@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-import re
 from .utils import extract_product_image_id
 
 
