@@ -9,15 +9,17 @@ def extract_product_data(product):
         price = product.select_one(".andes-money-amount__fraction")
         image_tag = product.select_one(".poly-component__picture")
 
-        image_url = image_tag.get(
-            "data-src") or image_tag.get("src") if image_tag else None
+        if image_tag:
+            image_url = image_tag.get("src") or image_tag.get("data-src")
+        else:
+            image_url = None
 
         link_tag = product.select_one("a")
         product_url = link_tag.get("href") if link_tag else None
 
         product_id = None
         if product_url:
-            match = re.search(r"/p/(MLA\d+)", product_url)
+            match = re.search(r"(MLA\d+)", product_url)
             if match:
                 product_id = match.group(1)
 
