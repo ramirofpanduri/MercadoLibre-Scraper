@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from .utils import extract_product_image_id
+import re
 
 
 def extract_product_data(product):
@@ -9,11 +9,21 @@ def extract_product_data(product):
         price = product.select_one(".andes-money-amount__fraction")
         image_tag = product.select_one(".poly-component__picture")
 
-        image_url = image_tag.get("data-src") or image_tag.get("src")
-        image_id = extract_product_image_id(image_url) if image_url else None
+        image_url = image_tag.get(
+            "data-src") or image_tag.get("src") if image_tag else None
+
+        link_tag = product.select_one("a")
+        product_url = link_tag.get("href") if link_tag else None
+
+        product_id = None
+        if product_url:
+            match = re.search(r"/p/(MLA\d+)", product_url)
+            if match:
+                product_id = match.group(1)
+
         return {
             "title": title.get_text(strip=True) if title else None,
-            "image_id": image_id,
+            "product_id": product_id,
             "seller": seller.get_text(strip=True) if seller else None,
             "price": price.get_text(strip=True) if price else None,
             "image": image_url,
