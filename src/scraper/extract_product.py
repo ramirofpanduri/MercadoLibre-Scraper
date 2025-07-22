@@ -7,10 +7,10 @@ def extract_product_data(product):
         title = product.select_one(".poly-component__title-wrapper")
         seller = product.select_one(".poly-component__seller")
         price = product.select_one(".andes-money-amount__fraction")
-        image_tag = product.select_one(".poly-component__picture")
+        image_tag = product.select_one("img")
 
         if image_tag:
-            image_url = image_tag.get("src") or image_tag.get("data-src")
+            image_url = image_tag.get("data-src") or image_tag.get("src")
         else:
             image_url = None
 
