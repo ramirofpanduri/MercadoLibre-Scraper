@@ -23,6 +23,11 @@ def extract_product_data(product):
             if match:
                 product_id = match.group(1)
 
+        if not product_id:
+            return None
+        if not image_url or image_url.startswith("data:image/gif;base64"):
+            image_url = None
+
         return {
             "title": title.get_text(strip=True) if title else None,
             "product_id": product_id,
