@@ -11,6 +11,7 @@ class Product(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(300))
+    product_id = Column(String(50), unique=True, nullable=False)
     seller = Column(String(150), nullable=True)
     price = Column(String(50))
     image = Column(String(500), nullable=True)
