@@ -1,7 +1,7 @@
+import datetime
 from models import Product
 from db import SessionLocal
 from sqlalchemy import select
-import datetime
 
 
 def save_products(scraped_products):

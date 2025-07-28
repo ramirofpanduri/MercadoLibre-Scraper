@@ -3,7 +3,7 @@ from .extract_product import extract_product_data
 from .pagination import get_next_page
 
 
-def get_all_products(base_url):
+def scrape_mercadolibre(base_url):
     products = []
 
     urls = get_next_page(base_url)
