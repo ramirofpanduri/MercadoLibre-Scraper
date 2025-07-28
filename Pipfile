@@ -10,6 +10,7 @@ mysql-connector-python = "*"
 sqlalchemy = "*"
 python-dotenv = "*"
 selenium = "*"
+apscheduler = "*"
 
 [dev-packages]
 
