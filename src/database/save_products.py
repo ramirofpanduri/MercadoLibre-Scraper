@@ -1,5 +1,5 @@
 import datetime
-from models import Product
+from .models import Product
 from db import SessionLocal
 from sqlalchemy import select
 
