@@ -1,5 +1,5 @@
-from models import Base
-from db import engine
+from .models import Base
+from .db import engine
 
 
 def create_tables():
