@@ -13,3 +13,4 @@ __pycache__/
 *.sqlite3
 
 *.log
+src/__pycache__/main.cpython-313.pyc
