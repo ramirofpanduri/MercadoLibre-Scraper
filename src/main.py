@@ -1,7 +1,8 @@
+import pytz
 from apscheduler.schedulers.blocking import BlockingScheduler
 from .scraper.ml_scraper import scrape_mercadolibre
 from .database.save_products import save_products
-import pytz
+
 
 arg_timezone = pytz.timezone("America/Argentina/Buenos_Aires")
 
