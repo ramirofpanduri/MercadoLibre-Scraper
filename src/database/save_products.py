@@ -25,7 +25,6 @@ def save_products(scraped_products):
                 product = Product(
                     product_id=p['product_id'],
                     title=p['title'],
-                    product_id=p['product_id'],
                     seller=p['seller'],
                     price=p['price'],
                     image=p['image']
