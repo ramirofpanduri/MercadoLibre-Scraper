@@ -2,6 +2,7 @@ import datetime
 from .models import Product
 from .db import SessionLocal
 from sqlalchemy import select
+import traceback
 
 
 def save_products(scraped_products):
@@ -27,11 +28,12 @@ def save_products(scraped_products):
                     title=p['title'],
                     seller=p['seller'],
                     price=p['price'],
-                    image=p['image']
-                )
+                    image=p['image'],
+                    timestamp=datetime.datetime.now(datetime.timezone.utc))
+
                 session.add(product)
 
-        existing_product = session.execute(select(Product)).scalars().all()
+        all_products = session.execute(select(Product)).scalars().all()
         for product in existing_product:
             if product.product_id not in scraped_ids:
                 session.delete(product)
@@ -40,6 +42,7 @@ def save_products(scraped_products):
 
     except Exception as e:
         session.rollback()
+        traceback.print_exc()
         print(f"Error saving products: {e}")
     finally:
         session.close()

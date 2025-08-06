@@ -16,7 +16,4 @@ def job():
 
 
 if __name__ == "__main__":
-    scheduler = BlockingScheduler(timezone=arg_timezone)
-    scheduler.add_job(job, "interval", hours=12)
-    print("Scraper running every 12 hours")
-    scheduler.start()
+    job()
