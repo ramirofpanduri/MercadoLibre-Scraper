@@ -9,11 +9,13 @@ def save_products(scraped_products):
     session = SessionLocal()
     try:
         scraped_ids = set()
+
         for p in scraped_products:
             scraped_ids.add(p['product_id'])
+
             existing_product = session.execute(
                 select(Product).where(Product.product_id == p['product_id'])
-            ).scalar_one_or_none()
+            ).scalars().one_or_none()
 
             if existing_product:
                 existing_product.title = p['title']
@@ -34,7 +36,7 @@ def save_products(scraped_products):
                 session.add(product)
 
         all_products = session.execute(select(Product)).scalars().all()
-        for product in existing_product:
+        for product in all_products:
             if product.product_id not in scraped_ids:
                 session.delete(product)
 
