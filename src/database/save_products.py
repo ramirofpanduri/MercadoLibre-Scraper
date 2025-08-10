@@ -8,32 +8,31 @@ import traceback
 def save_products(scraped_products):
     session = SessionLocal()
     try:
-        scraped_ids = set()
+        scraped_ids = {p['product_id'] for p in scraped_products}
+
+        existing_products = session.execute(
+            select(Product).where(Product.product.id.in_(scraped_ids))
+        ).scalars().all()
+        existing_dict = {prod.product_id: prod for prod in existing_products}
 
         for p in scraped_products:
-            scraped_ids.add(p['product_id'])
-
-            existing_product = session.execute(
-                select(Product).where(Product.product_id == p['product_id'])
-            ).scalars().one_or_none()
-
-            if existing_product:
-                existing_product.title = p['title']
-                existing_product.seller = p['seller']
-                existing_product.price = p['price']
-                existing_product.image = p['image']
-                existing_product.timestamp = datetime.datetime.now(
-                    datetime.timezone.utc)
+            prod = existing_dict.get(p['product_id'])
+            if prod:
+                prod.title = p['title']
+                prod.seller = p['seller']
+                prod.price = p['price']
+                prod.image = p['image']
+                prod.timestamp = datetime.datetime.now(datetime.timezone.utc)
             else:
-                product = Product(
+                new_product = Product(
                     product_id=p['product_id'],
                     title=p['title'],
                     seller=p['seller'],
                     price=p['price'],
                     image=p['image'],
-                    timestamp=datetime.datetime.now(datetime.timezone.utc))
-
-                session.add(product)
+                    timestamp=datetime.datetime.now(datetime.timezone.utc)
+                )
+                session.add(new_product)
 
         all_products = session.execute(select(Product)).scalars().all()
         for product in all_products:
