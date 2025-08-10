@@ -23,7 +23,9 @@ def save_products(scraped_products):
         existing_products = session.execute(
             select(Product).where(Product.product_id.in_(scraped_ids))
         ).scalars().all()
-        existing_dict = {prod.product_id: prod for prod in existing_products}
+
+        existing_dict = {prod.product_id.strip(
+        ).upper(): prod for prod in existing_products}
 
         for p in scraped_products:
             prod = existing_dict.get(p['product_id'])
