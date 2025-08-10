@@ -8,10 +8,20 @@ import traceback
 def save_products(scraped_products):
     session = SessionLocal()
     try:
+
+        seen = set()
+        unique_products = []
+        for p in scraped_products:
+            pid = str(p['product_id']).strip().upper()
+            if pid not in seen:
+                seen.add(pid)
+                p['product_id'] = pid
+                unique_products.append(p)
+
         scraped_ids = {p['product_id'] for p in scraped_products}
 
         existing_products = session.execute(
-            select(Product).where(Product.product.id.in_(scraped_ids))
+            select(Product).where(Product.product_id.in_(scraped_ids))
         ).scalars().all()
         existing_dict = {prod.product_id: prod for prod in existing_products}
 
